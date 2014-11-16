@@ -166,9 +166,9 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
-    //console.log(collection, iterator, accumulator);
     // set initial total value to accumulator (if provided) or first element of collection.
     var accumulator = accumulator !== undefined ? accumulator : collection.length ? collection[0] : collection[Object.keys(collection)[0]];
+    
     // _.each calls iterator(value, key, collection) for each element in the collection.
     _.each(collection, function(val, key) {
       accumulator = iterator(accumulator, val);
