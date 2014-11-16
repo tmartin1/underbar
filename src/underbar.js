@@ -97,6 +97,15 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniques = {};
+    return _.filter(array, function(val) {
+      if (!uniques[val]) {
+        uniques[val] = true;
+        return true;
+      } else {
+        return false;
+      }
+    });
   };
 
 
