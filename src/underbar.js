@@ -300,6 +300,18 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // create empty object to store previously run results for given arguments
+    // within each returned function.
+    var memorized = {};
+    return function(arg) {
+      // if the func is not defined in memorized with given argument, run func.
+      if (memorized[arg] === undefined) {
+        memorized[arg] = func.apply(this, arguments);
+        console.log(memorized[arg]);
+      }
+      // else if args exsits in memorized, or after initial run, return result.
+      return memorized[arg];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
