@@ -251,6 +251,14 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var newObj = arguments[0];
+    // _.each calls iterator(collection[i], i, collection); for each element.
+    _.each(arguments, function(value) {
+      _.each(value, function(val, key) {
+        newObj[key] = newObj[key] !== undefined ? newObj[key] : val;
+      });
+    });
+    return newObj;
   };
 
 
