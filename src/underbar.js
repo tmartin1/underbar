@@ -360,6 +360,28 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    var result = [];
+    // define iterator if it is passed in as a string.
+    if (typeof(iterator) === "string") {
+      iterator = new Function("x","return x."+iterator+";");
+    }
+
+    var keys = [];
+    var organizer = {};
+    _.each(collection, function(val) {
+      if (organizer[iterator(val)] === undefined) {
+        keys.push(iterator(val));
+        organizer[iterator(val)] = val;
+      } else {
+        organizer[iterator(val)] = [organizer[iterator(val)], val];
+      }
+    });
+
+    keys.sort();
+    _.each(keys, function(val, key) {
+      result.push(organizer[keys[key]]);
+    });
+    return _.flatten(result);
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -393,6 +415,13 @@ var _ = {};
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    if (result === undefined) result = [];
+    // _.each calls iterator(collection[i], i, collection); for each element.
+    _.each(nestedArray, function(val) {
+      if (!Array.isArray(val)) result.push(val);
+      else _.flatten(val, result);
+    });
+    return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
