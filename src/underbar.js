@@ -307,7 +307,6 @@ var _ = {};
       // if the func is not defined in memorized with given argument, run func.
       if (memorized[arg] === undefined) {
         memorized[arg] = func.apply(this, arguments);
-        console.log(memorized[arg]);
       }
       // else if args exsits in memorized, or after initial run, return result.
       return memorized[arg];
@@ -321,6 +320,10 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = arguments.length <= 2 ? [] : Array.prototype.slice.call(arguments).slice(2,arguments.length);
+    return setTimeout(function() {
+      return func.apply(this, args);
+    }, wait);
   };
 
 
