@@ -238,6 +238,14 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var newObj = arguments[0];
+    // _.each calls iterator(collection[i], i, collection); for each element.
+    _.each(arguments, function(value) {
+      _.each(value, function(val, key) {
+        newObj[key] = val;
+      });
+    });
+    return newObj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
