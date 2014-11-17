@@ -162,7 +162,7 @@ var _ = {};
   //
   // Example:
   //   var numbers = [1,2,3];
-  //   var sum = _.reduce(numbers, function(total, number){
+  //   var sum = _.reduce(numbers, function(total, number) {
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
@@ -189,15 +189,33 @@ var _ = {};
   };
 
 
-  // Determine whether all of the elements match a truth test.
+  // Determine whether all of the elements match a truth test. Passes by default for
+  // empty collections.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(isTrue, item) {
+      // if no callback is provided, treat each item as the callback result.
+      if (iterator === undefined) return item;
+      if (isTrue) {
+        if (iterator(item)) return true;
+        return false;
+      }
+      return false;
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
-  // provided, provide a default one
+  // provided, provide a default one.
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      iterator = function(item) {
+        return item;
+      };
+    }
+    return !_.every(collection, function(item) {
+      return !iterator(item);
+    });
   };
 
 
