@@ -447,6 +447,23 @@ var _ = {};
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var args = Array.prototype.slice.call(arguments);
+    var dupes = {};
+    // _.each calls iterator(collection[i], i, collection); for each element.
+    _.each(args, function(arr) {
+      _.each(arr, function(val) {
+        if (dupes[val] === 1) {
+          dupes[val]++;
+        } else if (dupes[val] === undefined && arr === args[0]) {
+          dupes[val] = 1;
+        }
+      });
+    });
+    var result = [];
+    _.each(dupes, function(val, key) {
+      if (val === 1) result.push(key);
+    });
+    return result;
   };
 
 
