@@ -477,6 +477,16 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var start = 0;
+    var result;
+    return function() {
+      var current = new Date().getTime();
+      if (current - start >= wait) {
+        start = new Date().getTime();
+        result = func.apply(this, arguments);
+      }
+      return result;
+    };
   };
 
 }).call(this);
